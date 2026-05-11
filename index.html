@@ -3,67 +3,127 @@
 <head>
     <title>Love Calculator</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
-        body{
-            font-family: Arial;
-            background:#f5f5f5;
-            text-align:center;
-            padding-top:50px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .container{
-            background:white;
-            width:350px;
-            margin:auto;
-            padding:30px;
-            border-radius:10px;
-            box-shadow:0px 0px 10px gray;
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* Colorful animated background */
+            background: linear-gradient(-45deg, #ff4e50, #fc913a, #f9d423, #24c6dc, #514a9d);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
         }
 
-        input{
-            width:90%;
-            padding:10px;
-            margin:10px;
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
         }
 
-        button{
-            padding:10px 20px;
-            background:red;
-            color:white;
-            border:none;
-            border-radius:5px;
-            cursor:pointer;
+        .container {
+            width: 90%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            text-align: center;
+
+            color: white;
         }
 
-        h2{
-            color:red;
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
         }
 
-        #result{
-            margin-top:20px;
-            font-size:22px;
-            font-weight:bold;
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+
+            background: linear-gradient(45deg, #ff0000, #ff6a00);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 10px black;
+        }
+
+        .heart {
+            font-size: 30px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {transform: scale(1);}
+            50% {transform: scale(1.3);}
+            100% {transform: scale(1);}
         }
     </style>
 
-    <!-- EmailJS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
 </head>
 
 <body>
 
 <div class="container">
 
-    <h2>Love Calculator ❤️</h2>
+    <h2>💖 Love Calculator 💖</h2>
 
-    <label>Your Name</label><br>
-    <input type="text" id="yourName" placeholder="Enter your name"><br>
+    <label>Your Name</label>
+    <input type="text" id="yourName" placeholder="Enter your name">
 
-    <label>Your Partner Name</label><br>
-    <input type="text" id="partnerName" placeholder="Enter partner name"><br>
+    <label>Partner Name</label>
+    <input type="text" id="partnerName" placeholder="Enter partner name">
 
-    <button onclick="calculateLove()">Calculate</button>
+    <button onclick="calculateLove()">Calculate Love 💘</button>
 
     <div id="result"></div>
 
@@ -71,46 +131,32 @@
 
 <script>
 
-    // Initialize EmailJS
-    emailjs.init("k2CD3rrchLT81EL4p");
+emailjs.init("k2CD3rrchLT81EL4p");
 
-    function calculateLove(){
+function calculateLove(){
 
-        let yourName = document.getElementById("yourName").value;
-        let partnerName = document.getElementById("partnerName").value;
+    let yourName = document.getElementById("yourName").value;
+    let partnerName = document.getElementById("partnerName").value;
 
-        if(yourName == "" || partnerName == ""){
-            alert("Please enter both names");
-            return;
-        }
-
-        let percentage = Math.floor(Math.random() * 101);
-
-        let resultText =
-            yourName + " ❤️ " + partnerName +
-            " = " + percentage + "%";
-
-        document.getElementById("result").innerHTML = resultText;
-
-        // Send Mail
-        emailjs.send("service_6qn99xl", "template_5cujcga", {
-
-            your_name: yourName,
-            partner_name: partnerName,
-            love_percentage: percentage,
-            to_email: "yourmail@gmail.com"
-
-        }).then(function(response){
-
-            console.log("Email Sent Successfully");
-
-        }, function(error){
-
-            console.log("Failed", error);
-
-        });
-
+    if(yourName == "" || partnerName == ""){
+        alert("Please enter both names");
+        return;
     }
+
+    let percentage = Math.floor(Math.random() * 101);
+
+    document.getElementById("result").innerHTML =
+        `<div class="heart">❤️</div>
+         ${yourName} + ${partnerName} = ${percentage}%`;
+
+    emailjs.send("service_6qn99xl", "template_5cujcga", {
+        your_name: yourName,
+        partner_name: partnerName,
+        love_percentage: percentage,
+        to_email: "yourmail@gmail.com"
+    });
+
+}
 
 </script>
 
