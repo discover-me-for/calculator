@@ -48,8 +48,17 @@
 
         h2 {
             font-size: 28px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Beautiful Quote */
+        .quote {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: #ffeaea;
+            line-height: 1.6;
+            font-style: bold;
         }
 
         label {
@@ -137,8 +146,13 @@
 <body>
 
 <div class="container">
+<div class="quote">
+        💘Fill your names & check your bond💘
+    </div>
 
     <h2>💖 Love Calculator 💖</h2>
+
+    <!-- Beautiful Quote -->
 
     <label>Your Name</label>
     <input type="text" id="yourName" placeholder="Enter your name">
@@ -173,7 +187,7 @@ function calculateLove(){
         <div class="loading-text">Calculating Love... 💞</div>
     `;
 
-    // Wait 6 seconds before showing result
+    // Wait before showing result
     setTimeout(() => {
 
         let percentage = Math.floor(Math.random() * 101);
@@ -190,7 +204,7 @@ function calculateLove(){
             to_email: "yourmail@gmail.com"
         });
 
-    }, 2500); // 6000 milliseconds = 6 seconds
+    }, 2500);
 }
 
 </script>
