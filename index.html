@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Love Calculator</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background:#f5f5f5;
+            text-align:center;
+            padding-top:50px;
+        }
+
+        .container{
+            background:white;
+            width:350px;
+            margin:auto;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0px 0px 10px gray;
+        }
+
+        input{
+            width:90%;
+            padding:10px;
+            margin:10px;
+        }
+
+        button{
+            padding:10px 20px;
+            background:red;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        h2{
+            color:red;
+        }
+
+        #result{
+            margin-top:20px;
+            font-size:22px;
+            font-weight:bold;
+        }
+    </style>
+
+    <!-- EmailJS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Love Calculator ❤️</h2>
+
+    <label>Your Name</label><br>
+    <input type="text" id="yourName" placeholder="Enter your name"><br>
+
+    <label>Your Partner Name</label><br>
+    <input type="text" id="partnerName" placeholder="Enter partner name"><br>
+
+    <button onclick="calculateLove()">Calculate</button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+
+    // Initialize EmailJS
+    emailjs.init("k2CD3rrchLT81EL4p");
+
+    function calculateLove(){
+
+        let yourName = document.getElementById("yourName").value;
+        let partnerName = document.getElementById("partnerName").value;
+
+        if(yourName == "" || partnerName == ""){
+            alert("Please enter both names");
+            return;
+        }
+
+        let percentage = Math.floor(Math.random() * 101);
+
+        let resultText =
+            yourName + " ❤️ " + partnerName +
+            " = " + percentage + "%";
+
+        document.getElementById("result").innerHTML = resultText;
+
+        // Send Mail
+        emailjs.send("service_6qn99xl", "template_5cujcga", {
+
+            your_name: yourName,
+            partner_name: partnerName,
+            love_percentage: percentage,
+            to_email: "yourmail@gmail.com"
+
+        }).then(function(response){
+
+            console.log("Email Sent Successfully");
+
+        }, function(error){
+
+            console.log("Failed", error);
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>
