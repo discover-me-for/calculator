@@ -1,166 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Love Calculator</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Relationship Calculator 💕</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
 
-        body {
-            font-family: Arial, sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
 
-            /* Colorful animated background */
-            background: linear-gradient(-45deg, #ff4e50, #fc913a, #f9d423, #24c6dc, #514a9d);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
-        }
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background:linear-gradient(135deg,#ff4d6d,#ff758f,#ffb3c1);
+    position:relative;
+}
 
-        @keyframes gradientBG {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
-        }
+/* Floating Hearts */
+.heart{
+    position:absolute;
+    color:rgba(255,255,255,0.7);
+    animation:floatHearts linear infinite;
+}
 
-        .container {
-            width: 90%;
-            max-width: 420px;
-            padding: 30px;
-            border-radius: 20px;
+@keyframes floatHearts{
+    0%{transform:translateY(100vh) scale(0.5);opacity:0;}
+    20%{opacity:1;}
+    100%{transform:translateY(-10vh) scale(1.5);opacity:0;}
+}
 
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
+/* Container */
+.container{
+    width:90%;
+    max-width:420px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    text-align:center;
+    color:white;
+    z-index:10;
+}
 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            text-align: center;
+/* ========== TITLE ANIMATIONS ========== */
 
-            color: white;
-        }
+/* FORWARD GRADIENT */
+.forward-text{
+    background:linear-gradient(90deg,#ffffff,#ff4d6d,#ffb3c1,#ff0000);
+    background-size:300% 300%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:forwardMove 4s linear infinite;
+    font-weight:bold;
+}
 
-        h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-        }
+@keyframes forwardMove{
+    0%{background-position:0%;}
+    100%{background-position:100%;}
+}
 
-        /* Beautiful Quote */
-        .quote {
-            font-size: 18px;
-            margin-bottom: 25px;
-            color: #ffeaea;
-            line-height: 1.6;
-            font-style: bold;
-        }
+/* REVERSE GRADIENT */
+.reverse-text{
+    background:linear-gradient(270deg,#ffffff,#ffb3c1,#ff4d6d,#fc0202);
+    background-size:300% 300%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:reverseMove 4s linear infinite;
+    font-weight:bold;
+}
 
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
+@keyframes reverseMove{
+    0%{background-position:100%;}
+    100%{background-position:0%;}
+}
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 8px;
-            border: none;
-            border-radius: 10px;
-            outline: none;
-            font-size: 16px;
-        }
+/* Input */
+input{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border:none;
+    border-radius:14px;
+    font-size:16px;
+}
 
-        button {
-            margin-top: 20px;
-            padding: 12px;
-            width: 100%;
-            border: none;
-            border-radius: 10px;
+/* Button */
+button{
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    border:none;
+    border-radius:14px;
+    background:#ff3366;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    font-weight:bold;
+}
 
-            background: linear-gradient(45deg, #ff0000, #ff6a00);
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
+/* Result */
+#result{
+    margin-top:25px;
+    font-size:24px;
+    font-weight:bold;
+    min-height:80px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
 
-            cursor: pointer;
-            transition: 0.3s;
-        }
+/* Loader */
+.loader{
+    width:55px;
+    height:55px;
+    border:6px solid rgba(255,255,255,0.3);
+    border-top:6px solid white;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
 
-        button:hover {
-            transform: scale(1.05);
-        }
+@keyframes spin{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
 
-        #result {
-            margin-top: 25px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 2px 2px 10px black;
-        }
+.show{
+    animation:pop 0.6s ease;
+}
 
-        .heart {
-            font-size: 30px;
-            animation: pulse 1s infinite;
-        }
+@keyframes pop{
+    0%{transform:scale(0);opacity:0;}
+    70%{transform:scale(1.1);}
+    100%{transform:scale(1);opacity:1;}
+}
 
-        @keyframes pulse {
-            0% {transform: scale(1);}
-            50% {transform: scale(1.3);}
-            100% {transform: scale(1);}
-        }
-
-        /* Loading Spinner */
-        .loader {
-            margin: 20px auto;
-            width: 60px;
-            height: 60px;
-            border: 6px solid rgba(255,255,255,0.3);
-            border-top: 6px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .loading-text {
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-    </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</style>
 </head>
 
 <body>
 
 <div class="container">
-<div class="quote">
-        💘Fill & Check Your Bonds💘
+
+    <!-- FORWARD SHADING -->
+    <div class="forward-text" style="font-size:18px;margin-bottom:10px;">
+        💕 Fill & Discover Heart Secret 💕
     </div>
 
-    <h2>💖 Love Calculator 💖</h2>
+    <!-- REVERSE SHADING -->
+    <h1 class="reverse-text" style="font-size:23px;margin-bottom:20px;">
+        💕 Relationship Calculator 💕
+    </h1>
 
-    <!-- Beautiful Quote -->
+    <input type="text" id="name1" placeholder="Enter Your Name">
+    <input type="text" id="name2" placeholder="Enter Partner Name">
 
-    <label>Your Name</label>
-    <input type="text" id="yourName" placeholder="Enter your name">
-
-    <label>Partner Name</label>
-    <input type="text" id="partnerName" placeholder="Enter partner name">
-
-    <button onclick="calculateLove()">Calculate Love 💘</button>
+    <button onclick="calculateLove()">Check Relationship</button>
 
     <div id="result"></div>
 
@@ -168,43 +174,63 @@
 
 <script>
 
-/* Initialize EmailJS */
-emailjs.init("k2CD3rrchLT81EL4p");
+// Floating hearts
+for(let i=0;i<35;i++){
+    const h=document.createElement('div');
+    h.className='heart';
+    h.innerHTML='💖';
+    h.style.left=Math.random()*100+'vw';
+    h.style.fontSize=(15+Math.random()*25)+'px';
+    h.style.animationDuration=(5+Math.random()*5)+'s';
+    document.body.appendChild(h);
+}
+
+// EmailJS
+emailjs.init('g2h59EgxytV-0tkHl');
+
+// Outcomes
+const outcomes=[
+"Perfect Soulmates 💖","Romantic Couple ❤️","Made For Each Other 💍",
+"Crazy In Love 😍","True Connection ✨","Strong Bond 🔥",
+"Cute Couple 🥰","Endless Love 💞","Dream Pair 🌹",
+"Perfect Match 💘","Future Couple 👩‍❤️‍👨","Power Couple 👑",
+"Good Understanding 🙂","Friendship Vibes 🫶","Enimies 💬",
+"Complicated Feelings 😶","Too Many Arguments ⚡","Not Meant To Be 💔"
+];
 
 function calculateLove(){
 
-    let yourName = document.getElementById("yourName").value;
-    let partnerName = document.getElementById("partnerName").value;
+    const n1=document.getElementById('name1').value.trim();
+    const n2=document.getElementById('name2').value.trim();
+    const res=document.getElementById('result');
 
-    if(yourName == "" || partnerName == ""){
-        alert("Please enter both names");
+    if(!n1||!n2){
+        alert("Enter both names");
         return;
     }
 
-    // Show loading animation
-    document.getElementById("result").innerHTML = `
-        <div class="loader"></div>
-        <div class="loading-text">Calculating Love... 💞</div>
-    `;
+    res.innerHTML=`<div class="loader"></div>`;
 
-    // Wait before showing result
-    setTimeout(() => {
+    setTimeout(()=>{
 
-        let percentage = Math.floor(Math.random() * 101);
+        let hash=0;
+        const combo=(n1+n2).toLowerCase();
 
-        document.getElementById("result").innerHTML =
-            `<div class="heart">❤️</div>
-             ${yourName} + ${partnerName} = ${percentage}%`;
+        for(let i=0;i<combo.length;i++){
+            hash+=combo.charCodeAt(i);
+        }
 
-        // Send Email
-        emailjs.send("service_6qn99xl", "template_5cujcga", {
-            your_name: yourName,
-            partner_name: partnerName,
-            love_percentage: percentage,
-            to_email: "yourmail@gmail.com"
+        const final=outcomes[hash%outcomes.length];
+
+        res.innerHTML=`<div class="show">💘 ${final}</div>`;
+
+        emailjs.send('service_5alx7t2','template_s9ajiia',{
+            name1:n1,
+            name2:n2,
+            result:final
         });
 
-    }, 2500);
+    },3000);
 }
 
 </script>
